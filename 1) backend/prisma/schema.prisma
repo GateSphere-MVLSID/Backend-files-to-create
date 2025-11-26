@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Route {
+  id                    String  @id @default(cuid())
+  routeId               String  @unique
+  vesselType            String
+  fuelType              String
+  year                  Int
+  ghgIntensity          Float
+  fuelConsumptionTons   Float
+  distanceKm            Float
+  totalEmissionsTons    Float
+  isBaseline            Boolean @default(false)
+}
+
+model ShipCompliance {
+  id        String  @id @default(cuid())
+  shipId    String
+  year      Int
+  cbGco2eq  Float
+}
+
+model BankEntry {
+  id            String  @id @default(cuid())
+  shipId        String
+  year          Int
+  amountGco2eq  Float
+}
+
+model Pool {
+  id         String   @id @default(cuid())
+  year       Int
+  createdAt  DateTime @default(now())
+}
+
+model PoolMember {
+  id        String  @id @default(cuid())
+  poolId    String
+  shipId    String
+  cbBefore  Float
+  cbAfter   Float
+}
